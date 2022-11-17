@@ -1,0 +1,27 @@
+﻿<div class="table-responsive">
+    <table class="table table-striped table-sm">
+        <thead>
+            <tr>
+                <th scope="col">Id</th>
+                <th scope="col">Name</th>
+                <th scope="col">Amount</th>
+                <th scope="col">Price</th>
+            </tr>
+        </thead>
+        <tbody>
+            @{
+                int i = 0;
+                foreach (var Drinks_leftover in Model)
+                {
+                    i++;
+                    <tr>
+                        <td><input type="text" class="form-control" id="ID_@i.ToString()" placeholder="" value="@Drinks_leftover.Id.ToString()" required=""></td>
+                        <td><input type="text" class="form-control" id="Name_@i.ToString()" placeholder="" value="@Drinks_leftover.Name" required=""></td>
+                        <td><input type="text" class="form-control" id="Amount_@i.ToString()" placeholder="" value="@Drinks_leftover.Amount.ToString()" required=""></td>
+                        <td><input type="text" class="form-control" id="Price_@i.ToString()" placeholder="" value="@Drinks_leftover.Price.ToString()" required=""></td>
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
+</div>

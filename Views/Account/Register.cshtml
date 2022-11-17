@@ -1,0 +1,46 @@
+﻿@model RegisterViewModel
+<div style="height:900px" class="d-flex justify-content-center container">
+    <div class="form-signin w-auto m-auto">
+        <div class="py-3">
+            <h2>Форма регистрации</h2>
+        </div>
+        <h4 class="mb-3">Данные пользователя</h4>
+        <form method="post" asp-action="Register" class="needs-validation" novalidate="">
+            <div asp-validation-summary="ModelOnly"></div>
+            <div class="row g-3">
+
+                <div class="col-12">
+                    <label asp-for="UserName" class="form-label">UserName</label>
+                    <div class="input-group has-validation">
+                        <input asp-for="UserName" type="text" class="form-control" id="UserName" placeholder="UserName" required=""/>
+                        <div class="invalid-feedback">
+                            Your username is required.
+                        </div>
+                        <span asp-validation-for="UserName"></span>
+                    </div>
+                </div>
+
+                <div class="col-12">
+                    <label asp-for="Password" class="form-label">Пароль</label>
+                    <input asp-for="Password" type="text" class="form-control" id="Password" placeholder="123456" required=""/>
+                    <div class="invalid-feedback">
+                        Please enter your pass.
+                    </div>
+                    <span asp-validation-for="Password"></span>
+                </div>
+
+                <div class="col-12">
+                    <label asp-for="PasswordConfirm" class="form-label">Повторите пароль</label>
+                    <input asp-for="PasswordConfirm" type="text" class="form-control" id="PasswordConfirm" placeholder="123456" required=""/>
+                    <div class="invalid-feedback">
+                        Please enter your pass.
+                    </div>
+                    <span asp-validation-for="PasswordConfirm"></span>
+                </div>
+
+            </div>
+            <hr class="my-4">
+            <input value="Регистрация" class="w-100 btn btn-primary btn-lg" type="submit"/>
+        </form>
+    </div>
+</div>

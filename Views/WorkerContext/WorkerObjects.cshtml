@@ -1,0 +1,240 @@
+﻿<form method="post" name="main">
+  <input hidden name="name" value="Виктор">
+  <input hidden name="surname" value="Цой">
+    <div class="container px-4 py-5 border-dark" id="featured-3">
+    <h2 class="pb-2 border-bottom">Продажи кофейни</h2>
+    <div class="row g-4 py-5 row-cols-1 row-cols-lg-3">
+        <div style="height:320px;  width: 380px;" class="container">
+            <div class="container p-2 bg-dark justify-content-center rounded-3 shadow">
+                <form class="pt-2 h-auto bg-dark border-bottom border-dark">
+                    <input id="searchdrinks" class="form-control form-control-dark" autocomplete="false" placeholder="Type to filter...">
+                </form>
+                <div class=" dropdown-menu dropdown-menu-dark d-block h-75 pb-5 position-static rounded-3 shadow navbar-nav-scroll overflow-auto">
+                    <table id="drinks">
+                        <tbody>
+                            @{
+                                foreach (var Drink in Model.AllDrinks)
+                                {
+                                    <tr>
+                                        <td id="@Drink.Id" class="dropdown-item d-flex align-items-center gap-2 py-2" onclick="addButtonDrinks(this)">
+                                            @Drink.Name Цена: @Drink.Price.ToString("c")
+                                        </td>
+                                    </tr>
+                                }
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div style="height:320px;  width: 340px;" class="container">
+            <div class="container bg-dark p-2 justify-content-center rounded-3 shadow">
+                <form class="pt-2 h-auto bg-dark border-bottom border-dark">
+                    <input id="searchproducts" class="form-control form-control-dark" autocomplete="false" placeholder="Type to filter...">
+                </form>
+                <div class=" dropdown-menu dropdown-menu-dark d-block h-75 pb-5 position-static rounded-3 shadow navbar-nav-scroll overflow-auto">
+                    <table id="products">
+                        <tbody>
+                            @{
+                                foreach (var Product in Model.AllProducts)
+                                {
+                                    <tr>
+                                        <td id="@Product.Id" class="dropdown-item d-flex align-items-center gap-2 py-2" onclick="addButtonProducts(this)">
+                                            @Product.Name Цена: @Product.PortionPrice.ToString("c")
+                                        </td>
+                                    </tr>
+                                }
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div style="height:320px;  width: 280px;" class="container">
+            <div class="container p-2 justify-content-center rounded-3 shadow">
+                <form class="pt-2 h-auto border-dark">
+                    <input id="searchbenef" class="form-control form-control-dark" autocomplete="false" placeholder="Type to filter...">
+                </form>
+                <div class=" dropdown-menu d-block h-75 pb-5 position-static rounded-3 shadow navbar-nav-scroll overflow-auto">
+                    <table id="benef" class="list-group mx-0 w-auto">
+                        <tbody>
+                        @{
+                            int i = 0;
+                            foreach (var Benef in Model.AllBeneficiaries)
+                            {
+                                i++;
+                                <tr>
+                                    <td class="list-group-item d-flex gap-2">
+                                       <input class="form-check-input flex-shrink-0" type="radio" name="person" checked="">
+                                       <span>@Benef.Name</span>
+                                    </td>
+                                </tr>
+                            }
+                        }
+                        </tbody>
+                    </table>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+<div class="container px-4 py-5">
+    <div style="height:250px;" class="row row-cols-2 justify-content-center">
+        <div id="Div1" class="row row-cols-2 w-75 row-cols-lg-auto">
+        </div>
+        <div class="container p-2 w-25">
+            <div class="modal-footer justify-content-center flex-column shadow border-top-0">
+                <button onclick="transaction()" type="button" class="btn btn-lg btn-primary w-100 mx-0 mb-2">Перейти к оплате</button>
+                <button type="button" class="btn btn-lg btn-light w-100 mx-0" data-bs-dismiss="modal">Сбросить</button>
+            </div>
+        </div>
+    </div>
+</div>
+</form>
+
+<script>
+    let arrDrinks =[];
+    let arrProducts = [];
+
+    var AllDrinks = [];
+    var AllProducts = [];
+
+    var match = false;
+
+    function transaction(){
+      // создать объект для формы
+  var formData = new FormData(document.forms.main);
+
+  // добавить к пересылке ещё пару ключ - значение
+  formData.append('alldrinksform', AllDrinks);
+  formData.append('allproductsform', AllProducts);
+
+  // отослать
+  var xhr = new XMLHttpRequest();
+  xhr.open("POST", "/WorkerContext/Transact");
+  xhr.send(formData);
+}
+
+
+    function addButtonDrinks(obj) {
+        match = false;
+        let div1 = document.getElementById("Div1");
+         for (let i = 0; i < arrDrinks.length; i++)
+           {
+               if(arrDrinks[i] == obj.innerText)
+                 {
+                   match = true;
+                   break;
+                 }
+            }
+          if((!match)&&(arrDrinks.length < 6))
+            arrDrinks.push(obj.innerText);
+
+        if((arrDrinks.length < 6)){
+            AllDrinks.push(obj.innerText);
+            let btn = document.createElement("div");
+            btn.className = "DrinksButton";
+            btn.innerHTML = "<label class=\"btn btn-outline-secondary\"><span>" + obj.innerText + "</span></label>";
+            btn.addEventListener('click', function () {
+               removeElementDrink(this)
+            }, false);
+            div1.appendChild(btn);
+        }
+    }
+    
+    function removeElementDrink(obj){
+        for (let i = 0; i < arrDrinks.length; i++)
+        {
+            if(arrDrinks[i] == obj.innerText)
+              {
+                arrDrinks = arrDrinks.splice(i, 1);
+                break;
+              }
+        }
+        for (let i = 0; i < AllDrinks.length; i++)
+        {
+            if(AllDrinks[i] == obj.innerText)
+              {
+                AllDrinks = AllDrinks.splice(i, 1);
+                break;
+              }
+        }
+        obj.parentNode.removeChild(obj);
+    }
+
+        function removeElementProduct(obj){
+        for (let i = 0; i < arrProducts.length; i++)
+        {
+            if(arrProducts[i] == obj.innerText)
+              {
+                arrProducts = arrProducts.splice(i, 1);
+                break;
+              }
+        }
+        for (let i = 0; i < AllProducts.length; i++)
+        {
+            if(AllProducts[i] == obj.innerText)
+              {
+                AllProducts = AllProducts.splice(i, 1);
+                break;
+              }
+        }
+        obj.parentNode.removeChild(obj);
+    }
+
+
+    function addButtonProducts(obj) {
+        match = false;
+        let div1 = document.getElementById("Div1");
+         for (let i = 0; i < arrProducts.length; i++)
+           {
+               if(arrProducts[i] == obj.innerText)
+                 {
+                   match = true;
+                   break;
+                 }
+            }
+          if((!match)&&(arrProducts.length < 6))
+            arrProducts.push(obj.innerText);
+
+        if((arrProducts.length < 6)){
+            AllProducts.push(obj.innerText);
+            let btn = document.createElement("div");
+            btn.className = "ProductsButton";
+            btn.innerHTML = "<label class=\"btn btn-outline-secondary\"><span>" + obj.innerText + "</span></label>";
+            btn.addEventListener('click', function () {
+               removeElementProduct(this)
+            }, false);
+            div1.appendChild(btn);
+        }
+    }
+
+
+    $(document).ready(function () {
+        $("#searchdrinks").on("keyup", function () {
+            var value = $(this).val().toLowerCase();
+            $("#drinks tr").filter(function () {
+                $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+            });
+        });
+    });
+    $(document).ready(function () {
+        $("#searchproducts").on("keyup", function () {
+            var value = $(this).val().toLowerCase();
+            $("#products tr").filter(function () {
+                $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+            });
+        });
+    });
+        $(document).ready(function () {
+        $("#searchbenef").on("keyup", function () {
+            var value = $(this).val().toLowerCase();
+            $("#benef tr").filter(function () {
+                $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+            });
+        });
+    });
+</script>
+

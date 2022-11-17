@@ -1,0 +1,21 @@
+﻿@model User
+<h1 class="bg-info text-white">Update User</h1>
+<a asp-action="UserList" class="btn btn-secondary">Back</a>
+<div asp-validation-summary="All" class="text-danger"></div>
+
+<form asp-action="Update" method="post">
+    <div class="form-group">
+        <label asp-for="Id"></label>
+        <input asp-for="Id" class="form-control" disabled />
+    </div>
+    <div class="form-group">
+        <label>Username</label>
+        <input value="@Model.UserName" class="form-control" disabled />
+    </div>
+
+    <div class="form-group">
+        <label for="password">Password</label>
+        <input name="password" class="form-control" />
+    </div>
+    <button type="submit" class="btn btn-primary">Save</button>
+</form>

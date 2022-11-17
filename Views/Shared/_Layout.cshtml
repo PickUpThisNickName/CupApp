@@ -1,0 +1,59 @@
+﻿<!DOCKTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Cup</title>
+    <link href="~/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+    <script src="~/js/jquery-3.2.1.min.js"></script>
+</head>
+<body>
+    <header class="p-3 text-bg-dark">
+        <div class="container">
+            <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
+                <a href="/" class="d-flex align-items-center mb-2 mb-lg-0 text-white text-decoration-none">
+                    <svg class="bi me-2" width="40" height="32" role="img" aria-label="Bootstrap"><use xlink:href="#bootstrap"></use></svg>
+                </a>
+                <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
+                    <li><a href="/Home/Index" class="nav-link px-2 text-secondary">Домой</a></li>
+                    @if (User.Identity.IsAuthenticated)
+                        {
+                            <li><a href="/WorkerContent" class="nav-link px-2 text-white">Продажи</a></li>
+                            if (User.IsInRole("admin"))
+                            {
+                                <li><a href="/Table1" class="nav-link px-2 text-white">Льготники</a></li>
+                                <li><a href="/Table2" class="nav-link px-2 text-white">Группы Льготников</a></li>
+                                <li><a href="/Table3" class="nav-link px-2 text-white">Напитки</a></li>
+                                <li><a href="/Table4" class="nav-link px-2 text-white">Остатки по напиткам</a></li>
+                                <li><a href="/Table5" class="nav-link px-2 text-white">Продукты</a></li>
+                                <li><a href="/Table6" class="nav-link px-2 text-white">Бариста</a></li>
+                                <li><a href="/Table7" class="nav-link px-2 text-white">Смены</a></li>
+                            }
+                        }
+                    </ul>
+
+                <div class="text-end">
+                        @if (User.Identity.IsAuthenticated)
+                        {
+                        <a method="post" asp-action="Logout" asp-controller="Account" type="button" class="btn btn-outline-light me-2">Выход</a>
+                            if (User.IsInRole("admin"))
+                            {
+                            <a method="get" asp-action="UserList" asp-controller="Roles" type="button" class="btn btn-outline-light">Изменение ролей</a>
+                            }
+                        }
+                        else
+                        {
+                        <a method="get" asp-action="Login" asp-controller="Account" type="button" class="btn btn-outline-light me-2">Вход</a>
+                        }
+                </div>
+            </div>
+        </div>
+    </header>
+    <div>
+            @RenderBody()
+    </div>
+    <scrypt src="~/js/bootstrap.min.js"><scrypt />
+</body>
+</html>
+
+

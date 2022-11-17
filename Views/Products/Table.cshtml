@@ -1,0 +1,31 @@
+﻿<div class="table-responsive">
+    <table class="table table-striped table-sm">
+        <thead>
+            <tr>
+                <th scope="col">Id</th>
+                <th scope="col">Name</th>
+                <th scope="col">VolumeInStock</th>
+                <th scope="col">Price</th>
+                <th scope="col">PortionVolume</th>
+                <th scope="col">PortionPrice</th>
+            </tr>
+        </thead>
+        <tbody>
+            @{
+                int i = 0;
+                foreach (var Product in Model)
+                {
+                    i++;
+                    <tr>
+                        <td><input type="text" class="form-control" id="ID_@i.ToString()" placeholder="" value="@Product.Id.ToString()" required=""></td>
+                        <td><input type="text" class="form-control" id="Name_@i.ToString()" placeholder="" value="@Product.Name" required=""></td>
+                        <td><input type="text" class="form-control" id="VolumeInStock_@i.ToString()" placeholder="" value="@Product.VolumeInStock.ToString()" required=""></td>
+                        <td><input type="text" class="form-control" id="Price_@i.ToString()" placeholder="" value="@Product.Price.ToString()" required=""></td>
+                        <td><input type="text" class="form-control" id="PortionVolume_@i.ToString()" placeholder="" value="@Product.PortionVolume.ToString()" required=""></td>
+                        <td><input type="text" class="form-control" id="PortionPrice_@i.ToString()" placeholder="" value="@Product.PortionPrice.ToString()" required=""></td>
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
+</div>
