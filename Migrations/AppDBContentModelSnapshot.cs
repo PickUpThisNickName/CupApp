@@ -220,6 +220,9 @@ namespace CupApplication.Migrations
                     b.Property<DateTime>("OpenTime")
                         .HasColumnType("datetime2");
 
+                    b.Property<string>("SessionGuid")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<int>("WorkerID")
                         .HasColumnType("int");
 

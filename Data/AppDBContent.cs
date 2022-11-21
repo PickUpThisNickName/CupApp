@@ -1,6 +1,5 @@
 ﻿using CupApplication.Data.Models;
 using Microsoft.EntityFrameworkCore;
-using CupApplication.Data.Models;
 
 namespace CupApplication.Data
 {
@@ -11,8 +10,6 @@ namespace CupApplication.Data
         {
             Database.EnsureCreated();
         }
-
-        
 
         public DbSet<Beneficiaries> DB_Beneficiaries { get; set; }
         public DbSet<BenefitType> DB_BenefitType { get; set; }

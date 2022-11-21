@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CupApplication.Migrations
 {
     [DbContext(typeof(AppDBContent))]
-    [Migration("20221121101425_Cup")]
+    [Migration("20221121151312_Cup")]
     partial class Cup
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -221,6 +221,9 @@ namespace CupApplication.Migrations
 
                     b.Property<DateTime>("OpenTime")
                         .HasColumnType("datetime2");
+
+                    b.Property<string>("SessionGuid")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("WorkerID")
                         .HasColumnType("int");

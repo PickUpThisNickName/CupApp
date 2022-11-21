@@ -16,9 +16,9 @@ namespace CupApplication.Data.Repository
         public List<WorkingSession> GetAllWorkingSessionsContent()
         {
             return (from p in content.DB_WorkingSession
-                    select new WorkingSession
+                    select new WorkingSession(content)
                     {
-                        Id = p.Id,
+                        SessionGuid = p.SessionGuid,
                         OpenTime = p.OpenTime,
                         CloseTime = p.CloseTime,
                         WorkerID = p.WorkerID,
@@ -26,9 +26,9 @@ namespace CupApplication.Data.Repository
                     }).ToList();
         }
 
-        WorkingSession IWorkingSession.getObject(int Id)
+        WorkingSession IWorkingSession.getObject(string Id)
         {
-            return content.DB_WorkingSession.FirstOrDefault(p => p.Id == Id);
+            return content.DB_WorkingSession.FirstOrDefault(p => p.SessionGuid == Id);
         }
     }
 }

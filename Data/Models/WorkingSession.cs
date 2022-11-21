@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Security.Policy;
@@ -12,8 +13,8 @@ namespace CupApplication.Data.Models
         {
             this.appDBContent = appDBContent;
         }
-
-        public string SessionId { get; set; }
+        public int Id { get; set; }
+        public string SessionGuid { get; set; }
         public DateTime OpenTime { get; set; }
         public DateTime CloseTime { get; set; }
         public int WorkerID { get; set; }
@@ -24,7 +25,7 @@ namespace CupApplication.Data.Models
             var context = service.GetService<AppDBContent>();
             string sessionId = session.GetString("SessionId") ?? Guid.NewGuid().ToString();
             session.SetString("SessionId", sessionId);
-            return new WorkingSession(context) { SessionId = sessionId };
+            return new WorkingSession(context) { SessionGuid = sessionId };
         }
     }
 }
