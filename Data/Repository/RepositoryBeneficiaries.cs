@@ -20,7 +20,7 @@ namespace CupApplication.Data.Repository
                     {
                         Id = p.Id,
                         Name = p.Name,
-                        Group = p.Group
+                        GroupObj = p.GroupObj
                     }).ToList();
         }
 
@@ -37,5 +37,13 @@ namespace CupApplication.Data.Repository
         {
             return content.DB_Beneficiaries.FirstOrDefault(p => p.Id == Id);
         }
+        public int? getIdByName(string name)
+        {
+            Beneficiaries benef = new Beneficiaries();
+            if (name!=null)
+                benef = content.DB_Beneficiaries.FirstOrDefault(p => p.Name == name);
+            return benef.Id;
+        }
+
     }
 }

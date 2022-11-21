@@ -12,6 +12,8 @@ namespace CupApplication.Data
             Database.EnsureCreated();
         }
 
+        
+
         public DbSet<Beneficiaries> DB_Beneficiaries { get; set; }
         public DbSet<BenefitType> DB_BenefitType { get; set; }
         public DbSet<Drinks> DB_Drinks { get; set; }
@@ -20,6 +22,9 @@ namespace CupApplication.Data
         public DbSet<WorkingSession> DB_WorkingSession { get; set; }
         public DbSet<Sales> DB_Sales { get; set; }
 
+        protected override void OnModelCreating(ModelBuilder modelBuilder) {
+            modelBuilder.Entity<Beneficiaries>().HasOne(b => b.GroupObj).WithMany(g => g.Persons);
+        }
 
     }
 }

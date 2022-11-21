@@ -41,6 +41,14 @@ namespace CupApplication.Data.Repository
                         PortionPrice = p.PortionPrice
                     }).ToList();
         }
+        public int? getIdByName(string name)
+        {
+            Products product = new Products();
+            if (name != null)
+                product = content.DB_Products.FirstOrDefault(p => p.Name == name);
+            return product.Id;
+        }
+
     }
 
 }

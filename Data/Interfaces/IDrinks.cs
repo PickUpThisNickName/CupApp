@@ -8,5 +8,6 @@ namespace CupApplication.Data.Interfaces
         List<Drinks> GetDrinks();
         List<Drinks> GetAllDrinksContent();
         Drinks getObject(int Id);
-    }    
+        public int? getIdByName(string name);
+    }
 }

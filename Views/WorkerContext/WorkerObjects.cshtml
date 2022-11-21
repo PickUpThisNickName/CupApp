@@ -15,11 +15,11 @@
                             @{
                                 foreach (var Drink in Model.AllDrinks)
                                 {
-                                    <tr>
-                                        <td id="@Drink.Id" class="dropdown-item d-flex align-items-center gap-2 py-2" onclick="addButtonDrinks(this)">
+                                                                                            <tr>
+                                                                                                <td id="@Drink.Id" class="dropdown-item d-flex align-items-center gap-2 py-2" onclick="addButtonDrinks(this)">
                                                                                                     @Drink.Name, Цена: @Drink.Price.ToString("c")
-                                        </td>
-                                    </tr>
+                                                                                                </td>
+                                                                                            </tr>
                                 }
                             }
                         </tbody>
@@ -38,11 +38,11 @@
                             @{
                                 foreach (var Product in Model.AllProducts)
                                 {
-                                    <tr>
-                                        <td id="@Product.Id" class="dropdown-item d-flex align-items-center gap-2 py-2" onclick="addButtonProducts(this)">
+                                                                                            <tr>
+                                                                                                <td id="@Product.Id" class="dropdown-item d-flex align-items-center gap-2 py-2" onclick="addButtonProducts(this)">
                                                                                                     @Product.Name, Цена: @Product.PortionPrice.ToString("c")
-                                        </td>
-                                    </tr>
+                                                                                                </td>
+                                                                                            </tr>
                                 }
                             }
                         </tbody>
@@ -63,13 +63,13 @@
                             foreach (var Benef in Model.AllBeneficiaries)
                             {
                                 i++;
-                                <tr>
+                                                                <tr>
                                                                     <td onclick="Check(this)" class="list-group-item d-flex gap-2">
                                                                         <input class="form-check-input flex-shrink-0" type="radio" name="person" value="@Benef.Name">
-                                       <span>@Benef.Name</span>
-                                    </td>
-                                </tr>
-                            }
+                                                                    <span>@Benef.Name</span>
+                                                                    </td>
+                                                                </tr>
+                                    }
                         }
                         </tbody>
                     </table>
@@ -142,23 +142,23 @@
     }
 
     function transaction() {
-      // создать объект для формы
-  var formData = new FormData(document.forms.main);
+        // создать объект для формы
+        var formData = new FormData(document.forms.main);
 
-  // добавить к пересылке ещё пару ключ - значение
-  formData.append('alldrinksform', AllDrinks);
-  formData.append('allproductsform', AllProducts);
+        // добавить к пересылке ещё пару ключ - значение
+        formData.append('alldrinksform', AllDrinks);
+        formData.append('allproductsform', AllProducts);
         formData.append('arrDrinks', arrDrinks);
         formData.append('arrProducts', arrProducts);
-  // отослать
-  var xhr = new XMLHttpRequest();
-  xhr.open("POST", "/WorkerContext/Transact");
-  xhr.send(formData);
+        // отослать
+        var xhr = new XMLHttpRequest();
+        xhr.open("POST", "/WorkerContext/Transact");
+        xhr.send(formData);
 
         ClearAll();
 
         alert("Транзакция отправлена в контроллер")
-}
+    }
 
 
     function addButtonDrinks(obj) {
@@ -174,7 +174,7 @@
             }
         if((arrDrinks.length < 5)||(match)){
             if(!match)
-            arrDrinks.push(obj.innerText);
+                arrDrinks.push(obj.innerText);
             AllDrinks.push(obj.innerText);
             let btn = document.createElement("div");
             btn.className = "DrinksButton";
@@ -185,14 +185,14 @@
             div1.appendChild(btn);
         }
     }
-    
+
     function addButtonProducts(obj) {
         match = false;
         let div1 = document.getElementById("Div1");
          for (let i = 0; i < arrProducts.length; i++)
-        {
+           {
                if(arrProducts[i] == obj.innerText)
-              {
+                 {
                    match = true;
                    break;
                  }
@@ -217,13 +217,13 @@
             if (arrDrinks[i] == obj.innerText) {
                 arrDrinks = arrDrinks.splice(i, 1);
                 break;
-              }
+            }
         }
         for (let i = 0; i < AllDrinks.length; i++) {
             if (AllDrinks[i] == obj.innerText) {
                 AllDrinks = AllDrinks.splice(i, 1);
                 break;
-              }
+            }
         }
         obj.parentNode.removeChild(obj);
     }
@@ -233,13 +233,13 @@
             if (arrProducts[i] == obj.innerText) {
                 arrProducts = arrProducts.splice(i, 1);
                 break;
-              }
+            }
         }
         for (let i = 0; i < AllProducts.length; i++) {
             if (AllProducts[i] == obj.innerText) {
                 AllProducts = AllProducts.splice(i, 1);
                 break;
-              }
+            }
         }
         obj.parentNode.removeChild(obj);
     }
