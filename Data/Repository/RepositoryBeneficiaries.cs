@@ -2,6 +2,7 @@
 using System.Linq;
 using CupApplication.Data.Interfaces;
 using CupApplication.Data.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace CupApplication.Data.Repository
 {
@@ -43,6 +44,17 @@ namespace CupApplication.Data.Repository
             if (name!=null)
                 benef = content.DB_Beneficiaries.FirstOrDefault(p => p.Name == name);
             return benef.Id;
+        }
+        public float? GetKoefficient(int? Id)
+        {
+            Beneficiaries benef = new Beneficiaries();
+            if (Id != null)
+            {
+                benef = content.DB_Beneficiaries.Include(b => b.GroupObj).FirstOrDefault(p => p.Id == Id);
+                return benef.GroupObj.Koefficient;
+            }
+            else
+                return 0;
         }
 
     }

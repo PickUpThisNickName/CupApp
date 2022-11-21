@@ -15,6 +15,7 @@ using System.Threading.Tasks;
 using CupApplication.Data.Models;
 using System.Xml.Linq;
 using System.Text.RegularExpressions;
+using System;
 
 namespace CupApplication.Data
 {
@@ -116,7 +117,7 @@ namespace CupApplication.Data
             if (!content.DB_WorkingSession.Any())
             {
                 content.AddRange(
-                    new WorkingSession { OpenDate = "01.01.0001", OpenTime = "00:00:00", CloseDate = "11.01.0001", CloseTime = "00:00:00", Name = "Русланов Руслан Русланы", WorkerID = 1 }
+                    new WorkingSession { OpenTime = DateTime.Now, CloseTime = DateTime.Now, Name = "Русланов Руслан Русланы", WorkerID = 1 }
                     );
                 Log.Debug("Инициализация таблицы DB_WorkingSession произведена");
             }
@@ -126,7 +127,7 @@ namespace CupApplication.Data
             if (!content.DB_Sales.Any())
             {
                 content.AddRange(
-                    new Sales { Date = "01.01.0001", Time = "00:00:10", WorkingTimeId = 1, WorkerId = 1, Cup1_ID = 1, Cup1_Amount = 1, Paid = 100 }
+                    new Sales { Time = DateTime.Now, WorkingTimeId = 1, WorkerId = 1, Cup1_ID = 1, Cup1_Amount = 1, Paid = 100 }
                     );
                 Log.Debug("Инициализация таблицы DB_Sales произведена");
             }

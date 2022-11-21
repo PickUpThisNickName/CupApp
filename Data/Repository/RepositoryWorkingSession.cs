@@ -19,9 +19,7 @@ namespace CupApplication.Data.Repository
                     select new WorkingSession
                     {
                         Id = p.Id,
-                        OpenDate = p.OpenDate,
                         OpenTime = p.OpenTime,
-                        CloseDate = p.CloseDate,
                         CloseTime = p.CloseTime,
                         WorkerID = p.WorkerID,
                         Name = p.Name

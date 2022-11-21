@@ -9,5 +9,6 @@ namespace CupApplication.Data.ViewModels
         public IEnumerable<Drinks> AllDrinks { get; set; }
         public IEnumerable<Products> AllProducts { get; set; }
         public IEnumerable<Beneficiaries> AllBeneficiaries { get; set; }
+        public bool SessionStarted { get; set; }
     }
 }

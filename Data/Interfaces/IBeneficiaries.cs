@@ -9,6 +9,7 @@ namespace CupApplication.Data.Interfaces
         List<Beneficiaries> GetBeneficiaries();
         Beneficiaries getObject(int Id);
         public int? getIdByName(string name);
+        public float? GetKoefficient(int? Id);
 
     }
 }

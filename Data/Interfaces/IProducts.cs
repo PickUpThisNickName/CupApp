@@ -9,6 +9,7 @@ namespace CupApplication.Data.Interfaces
         List<Products> GetAllProductsContent();
         Products getObject(int Id);
         public int? getIdByName(string name);
+        public float? GetPortionPrice(int? Id);
 
     }
 }

@@ -175,9 +175,6 @@ namespace CupApplication.Migrations
                     b.Property<int?>("Cup5_ID")
                         .HasColumnType("int");
 
-                    b.Property<string>("Date")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<float?>("Paid")
                         .HasColumnType("real");
 
@@ -193,8 +190,8 @@ namespace CupApplication.Migrations
                     b.Property<int?>("Product2_ID")
                         .HasColumnType("int");
 
-                    b.Property<string>("Time")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<DateTime>("Time")
+                        .HasColumnType("datetime2");
 
                     b.Property<int>("WorkerId")
                         .HasColumnType("int");
@@ -214,20 +211,14 @@ namespace CupApplication.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("CloseDate")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("CloseTime")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<DateTime>("CloseTime")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("OpenDate")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("OpenTime")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<DateTime>("OpenTime")
+                        .HasColumnType("datetime2");
 
                     b.Property<int>("WorkerID")
                         .HasColumnType("int");

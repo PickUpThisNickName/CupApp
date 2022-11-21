@@ -1,272 +1,277 @@
-﻿<form method="post" name="main">
-  <input hidden name="name" value="Виктор">
-  <input hidden name="surname" value="Цой">
-    <div class="container px-4 py-5 border-dark" id="featured-3">
-    <h2 class="pb-2 border-bottom">Продажи кофейни</h2>
-    <div class="row g-4 py-5 row-cols-1 row-cols-lg-3">
-        <div style="height:320px;  width: 380px;" class="container">
-            <div class="container p-2 bg-dark justify-content-center rounded-3 shadow">
-                <div class="pt-2 h-auto bg-dark border-bottom border-dark">
-                    <input id="searchdrinks" class="form-control form-control-dark" autocomplete="false" placeholder="Type to filter...">
+﻿@{
+    if (Model.SessionStarted)
+    {
+        <button asp-action="CloseSession"></button>
+            <form method="post" name="main">
+                <h3  value="Сессия начата"></h3>
+                <div class="container px-4 py-5 border-dark" id="featured-3">
+                    <h2 class="pb-2 border-bottom">Продажи кофейни</h2>
+                    <div class="row g-4 py-5 row-cols-1 row-cols-lg-3">
+                        <div style="height:320px;  width: 380px;" class="container">
+                            <div class="container p-2 bg-dark justify-content-center rounded-3 shadow">
+                                <div class="pt-2 h-auto bg-dark border-bottom border-dark">
+                                    <input id="searchdrinks" class="form-control form-control-dark" autocomplete="false" placeholder="Type to filter...">
+                                </div>
+                                <div class=" dropdown-menu dropdown-menu-dark d-block h-75 pb-5 position-static rounded-3 shadow navbar-nav-scroll overflow-auto">
+                                    <table id="drinks">
+                                        <tbody>
+                                            @{
+                                            foreach (var Drink in Model.AllDrinks)
+                                            {
+                                                        <tr>
+                                                            <td id="@Drink.Id" class="dropdown-item d-flex align-items-center gap-2 py-2" onclick="addButtonDrinks(this)">
+                                                                @Drink.Name, Цена: @Drink.Price.ToString("c")
+                                                            </td>
+                                                        </tr>
+                                            }
+                                            }
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        <div style="height:320px;  width: 340px;" class="container">
+                            <div class="container bg-dark p-2 justify-content-center rounded-3 shadow">
+                                <div class="pt-2 h-auto bg-dark border-bottom border-dark">
+                                    <input id="searchproducts" class="form-control form-control-dark" autocomplete="false" placeholder="Type to filter...">
+                                </div>
+                                <div class=" dropdown-menu dropdown-menu-dark d-block h-75 pb-5 position-static rounded-3 shadow navbar-nav-scroll overflow-auto">
+                                    <table id="products">
+                                        <tbody>
+                                            @{
+                                            foreach (var Product in Model.AllProducts)
+                                            {
+                                                        <tr>
+                                                            <td id="@Product.Id" class="dropdown-item d-flex align-items-center gap-2 py-2" onclick="addButtonProducts(this)">
+                                                                @Product.Name, Цена: @Product.PortionPrice.ToString("c")
+                                                            </td>
+                                                        </tr>
+                                            }
+                                            }
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        <div style="height:320px;  width: 280px;" class="container">
+                            <div class="container p-2 justify-content-center rounded-3 shadow">
+                                <div class="pt-2 h-auto border-dark">
+                                    <input id="searchbenef" class="form-control form-control-dark" autocomplete="false" placeholder="Type to filter...">
+                                </div>
+                                <div class=" dropdown-menu d-block h-75 pb-5 position-static rounded-3 shadow navbar-nav-scroll overflow-auto">
+                                    <table id="benef" class="list-group mx-0 w-auto">
+                                        <tbody>
+                                            @{
+                                            int i = 0;
+                                            foreach (var Benef in Model.AllBeneficiaries)
+                                            {
+                                                i++;
+                                                        <tr>
+                                                            <td onclick="Check(this)" class="list-group-item d-flex gap-2">
+                                                                <input class="form-check-input flex-shrink-0" type="radio" name="person" value="@Benef.Name">
+                                                                <span>@Benef.Name</span>
+                                                            </td>
+                                                        </tr>
+                                            }
+                                            }
+                                        </tbody>
+                                    </table>
+
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
                 </div>
-                <div class=" dropdown-menu dropdown-menu-dark d-block h-75 pb-5 position-static rounded-3 shadow navbar-nav-scroll overflow-auto">
-                    <table id="drinks">
-                        <tbody>
-                            @{
-                                foreach (var Drink in Model.AllDrinks)
-                                {
-                                                                                            <tr>
-                                                                                                <td id="@Drink.Id" class="dropdown-item d-flex align-items-center gap-2 py-2" onclick="addButtonDrinks(this)">
-                                                                                                    @Drink.Name, Цена: @Drink.Price.ToString("c")
-                                                                                                </td>
-                                                                                            </tr>
-                                }
-                            }
-                        </tbody>
-                    </table>
+                <div class="container px-4 py-5">
+                    <div style="height:250px;" class="row row-cols-2 justify-content-center">
+                        <div id="Div1" class="row row-cols-2 w-75 row-cols-lg-auto">
+                        </div>
+                        <div class="container p-2 w-25">
+                            <div class="modal-footer justify-content-center flex-column shadow border-top-0">
+                                <button onclick="transaction()" type="button" class="btn btn-lg btn-primary w-100 mx-0 mb-2">Перейти к оплате</button>
+                                <button onclick="ClearAll()" type="button" class="btn btn-lg btn-light w-100 mx-0" data-bs-dismiss="modal">Сбросить</button>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-            </div>
-        </div>
-        <div style="height:320px;  width: 340px;" class="container">
-            <div class="container bg-dark p-2 justify-content-center rounded-3 shadow">
-                <div class="pt-2 h-auto bg-dark border-bottom border-dark">
-                    <input id="searchproducts" class="form-control form-control-dark" autocomplete="false" placeholder="Type to filter...">
-                </div>
-                <div class=" dropdown-menu dropdown-menu-dark d-block h-75 pb-5 position-static rounded-3 shadow navbar-nav-scroll overflow-auto">
-                    <table id="products">
-                        <tbody>
-                            @{
-                                foreach (var Product in Model.AllProducts)
-                                {
-                                                                                            <tr>
-                                                                                                <td id="@Product.Id" class="dropdown-item d-flex align-items-center gap-2 py-2" onclick="addButtonProducts(this)">
-                                                                                                    @Product.Name, Цена: @Product.PortionPrice.ToString("c")
-                                                                                                </td>
-                                                                                            </tr>
-                                }
-                            }
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
-        <div style="height:320px;  width: 280px;" class="container">
-            <div class="container p-2 justify-content-center rounded-3 shadow">
-                <div class="pt-2 h-auto border-dark">
-                    <input id="searchbenef" class="form-control form-control-dark" autocomplete="false" placeholder="Type to filter...">
-                </div>
-                <div class=" dropdown-menu d-block h-75 pb-5 position-static rounded-3 shadow navbar-nav-scroll overflow-auto">
-                    <table id="benef" class="list-group mx-0 w-auto">
-                        <tbody>
-                        @{
-                            int i = 0;
-                            foreach (var Benef in Model.AllBeneficiaries)
-                            {
-                                i++;
-                                                                <tr>
-                                                                    <td onclick="Check(this)" class="list-group-item d-flex gap-2">
-                                                                        <input class="form-check-input flex-shrink-0" type="radio" name="person" value="@Benef.Name">
-                                                                    <span>@Benef.Name</span>
-                                                                    </td>
-                                                                </tr>
-                                    }
-                        }
-                        </tbody>
-                    </table>
+    </form>
 
-                </div>
-            </div>
+        <script>
+        let arrDrinks = [];
+        let arrProducts = [];
 
-        </div>
-    </div>
-</div>
-<div class="container px-4 py-5">
-    <div style="height:250px;" class="row row-cols-2 justify-content-center">
-        <div id="Div1" class="row row-cols-2 w-75 row-cols-lg-auto">
-        </div>
-        <div class="container p-2 w-25">
-            <div class="modal-footer justify-content-center flex-column shadow border-top-0">
-                <button onclick="transaction()" type="button" class="btn btn-lg btn-primary w-100 mx-0 mb-2">Перейти к оплате</button>
-                    <button onclick="ClearAll()" type="button" class="btn btn-lg btn-light w-100 mx-0" data-bs-dismiss="modal">Сбросить</button>
-            </div>
-        </div>
-    </div>
-</div>
-</form>
+        var AllDrinks = [];
+        var AllProducts = [];
 
-<script>
-    let arrDrinks =[];
-    let arrProducts = [];
+        var match = false;
 
-    var AllDrinks = [];
-    var AllProducts = [];
-
-    var match = false;
-
-    function ClearAll(){
-        //удаляем все кнопки класса DrinksButton
-        let drink = document.querySelectorAll('.DrinksButton'); 
-        drink.forEach(function (elem) {
-            elem.parentNode.removeChild(elem);
-        });
-        //удаляем все кнопки класса ProductsButton
-        let product = document.querySelectorAll('.ProductsButton'); 
-        product.forEach(function (elem) {
-            elem.parentNode.removeChild(elem);
-        });
-        arrDrinks.length = 0;
-        arrProducts.length = 0;
-        AllDrinks.length = 0;
-        AllProducts.length = 0;
-        UnCheckAll();
-    }
-
-    var RadioText;
-
-    function UnCheckAll(){
-        document.querySelectorAll('.form-check-input').forEach((elem) => {
-            elem.checked = false});
-    }
-
-    function Check(obj){
-        if (RadioText == obj.children[0].value)
-        {
+        function ClearAll() {
+            //удаляем все кнопки класса DrinksButton
+            let drink = document.querySelectorAll('.DrinksButton');
+            drink.forEach(function (elem) {
+                elem.parentNode.removeChild(elem);
+            });
+            //удаляем все кнопки класса ProductsButton
+            let product = document.querySelectorAll('.ProductsButton');
+            product.forEach(function (elem) {
+                elem.parentNode.removeChild(elem);
+            });
+            arrDrinks.length = 0;
+            arrProducts.length = 0;
+            AllDrinks.length = 0;
+            AllProducts.length = 0;
             UnCheckAll();
-            RadioText = null;
         }
-        else
-        {
-            RadioText = obj.children[0].value;
-            obj.children[0].checked = true;
-        }
-    }
 
-    function transaction() {
-        // создать объект для формы
-        var formData = new FormData(document.forms.main);
+        var RadioText;
 
-        // добавить к пересылке ещё пару ключ - значение
-        formData.append('alldrinksform', AllDrinks);
-        formData.append('allproductsform', AllProducts);
-        formData.append('arrDrinks', arrDrinks);
-        formData.append('arrProducts', arrProducts);
-        // отослать
-        var xhr = new XMLHttpRequest();
-        xhr.open("POST", "/WorkerContext/Transact");
-        xhr.send(formData);
-
-        ClearAll();
-
-        alert("Транзакция отправлена в контроллер")
-    }
-
-
-    function addButtonDrinks(obj) {
-        match = false;
-        let div1 = document.getElementById("Div1");
-         for (let i = 0; i < arrDrinks.length; i++)
-           {
-               if(arrDrinks[i] == obj.innerText)
-                 {
-                   match = true;
-                   break;
-                 }
-            }
-        if((arrDrinks.length < 5)||(match)){
-            if(!match)
-                arrDrinks.push(obj.innerText);
-            AllDrinks.push(obj.innerText);
-            let btn = document.createElement("div");
-            btn.className = "DrinksButton";
-            btn.innerHTML = "<label class=\"btn btn-outline-secondary\"><span>" + obj.innerText + "</span></label>";
-            btn.addEventListener('click', function () {
-               removeElementDrink(this)
-            }, false);
-            div1.appendChild(btn);
-        }
-    }
-
-    function addButtonProducts(obj) {
-        match = false;
-        let div1 = document.getElementById("Div1");
-         for (let i = 0; i < arrProducts.length; i++)
-           {
-               if(arrProducts[i] == obj.innerText)
-                 {
-                   match = true;
-                   break;
-                 }
-            }
-
-        if((arrProducts.length < 2)||(match)){
-            if (!match)
-                arrProducts.push(obj.innerText);
-            AllProducts.push(obj.innerText);
-            let btn = document.createElement("div");
-            btn.className = "ProductsButton";
-            btn.innerHTML = "<label class=\"btn btn-outline-secondary\"><span>" + obj.innerText + "</span></label>";
-            btn.addEventListener('click', function () {
-               removeElementProduct(this)
-            }, false);
-            div1.appendChild(btn);
-        }
-    }
-
-    function removeElementDrink(obj) {
-        for (let i = 0; i < arrDrinks.length; i++) {
-            if (arrDrinks[i] == obj.innerText) {
-                arrDrinks = arrDrinks.splice(i, 1);
-                break;
-            }
-        }
-        for (let i = 0; i < AllDrinks.length; i++) {
-            if (AllDrinks[i] == obj.innerText) {
-                AllDrinks = AllDrinks.splice(i, 1);
-                break;
-            }
-        }
-        obj.parentNode.removeChild(obj);
-    }
-
-    function removeElementProduct(obj) {
-        for (let i = 0; i < arrProducts.length; i++) {
-            if (arrProducts[i] == obj.innerText) {
-                arrProducts = arrProducts.splice(i, 1);
-                break;
-            }
-        }
-        for (let i = 0; i < AllProducts.length; i++) {
-            if (AllProducts[i] == obj.innerText) {
-                AllProducts = AllProducts.splice(i, 1);
-                break;
-            }
-        }
-        obj.parentNode.removeChild(obj);
-    }
-
-    $(document).ready(function () {
-        $("#searchdrinks").on("keyup", function () {
-            var value = $(this).val().toLowerCase();
-            $("#drinks tr").filter(function () {
-                $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+        function UnCheckAll() {
+            document.querySelectorAll('.form-check-input').forEach((elem) => {
+                elem.checked = false
             });
-        });
-    });
-    $(document).ready(function () {
-        $("#searchproducts").on("keyup", function () {
-            var value = $(this).val().toLowerCase();
-            $("#products tr").filter(function () {
-                $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
-            });
-        });
-    });
+        }
+
+        function Check(obj) {
+            if (RadioText == obj.children[0].value) {
+                UnCheckAll();
+                RadioText = null;
+            }
+            else {
+                RadioText = obj.children[0].value;
+                obj.children[0].checked = true;
+            }
+        }
+
+        function transaction() {
+            // создать объект для формы
+            var formData = new FormData(document.forms.main);
+
+            // добавить к пересылке ещё пару ключ - значение
+            formData.append('alldrinksform', AllDrinks);
+            formData.append('allproductsform', AllProducts);
+            formData.append('arrDrinks', arrDrinks);
+            formData.append('arrProducts', arrProducts);
+            // отослать
+            var xhr = new XMLHttpRequest();
+            xhr.open("POST", "/WorkerContext/Transact");
+            xhr.send(formData);
+
+            ClearAll();
+
+            alert("Транзакция отправлена в контроллер")
+        }
+
+
+        function addButtonDrinks(obj) {
+            match = false;
+            let div1 = document.getElementById("Div1");
+            for (let i = 0; i < arrDrinks.length; i++) {
+                if (arrDrinks[i] == obj.innerText) {
+                    match = true;
+                    break;
+                }
+            }
+            if ((arrDrinks.length < 5) || (match)) {
+                if (!match)
+                    arrDrinks.push(obj.innerText);
+                AllDrinks.push(obj.innerText);
+                let btn = document.createElement("div");
+                btn.className = "DrinksButton";
+                btn.innerHTML = "<label class=\"btn btn-outline-secondary\"><span>" + obj.innerText + "</span></label>";
+                btn.addEventListener('click', function () {
+                    removeElementDrink(this)
+                }, false);
+                div1.appendChild(btn);
+            }
+        }
+
+        function addButtonProducts(obj) {
+            match = false;
+            let div1 = document.getElementById("Div1");
+            for (let i = 0; i < arrProducts.length; i++) {
+                if (arrProducts[i] == obj.innerText) {
+                    match = true;
+                    break;
+                }
+            }
+
+            if ((arrProducts.length < 2) || (match)) {
+                if (!match)
+                    arrProducts.push(obj.innerText);
+                AllProducts.push(obj.innerText);
+                let btn = document.createElement("div");
+                btn.className = "ProductsButton";
+                btn.innerHTML = "<label class=\"btn btn-outline-secondary\"><span>" + obj.innerText + "</span></label>";
+                btn.addEventListener('click', function () {
+                    removeElementProduct(this)
+                }, false);
+                div1.appendChild(btn);
+            }
+        }
+
+        function removeElementDrink(obj) {
+            for (let i = 0; i < arrDrinks.length; i++) {
+                if (arrDrinks[i] == obj.innerText) {
+                    arrDrinks = arrDrinks.splice(i, 1);
+                    break;
+                }
+            }
+            for (let i = 0; i < AllDrinks.length; i++) {
+                if (AllDrinks[i] == obj.innerText) {
+                    AllDrinks = AllDrinks.splice(i, 1);
+                    break;
+                }
+            }
+            obj.parentNode.removeChild(obj);
+        }
+
+        function removeElementProduct(obj) {
+            for (let i = 0; i < arrProducts.length; i++) {
+                if (arrProducts[i] == obj.innerText) {
+                    arrProducts = arrProducts.splice(i, 1);
+                    break;
+                }
+            }
+            for (let i = 0; i < AllProducts.length; i++) {
+                if (AllProducts[i] == obj.innerText) {
+                    AllProducts = AllProducts.splice(i, 1);
+                    break;
+                }
+            }
+            obj.parentNode.removeChild(obj);
+        }
+
         $(document).ready(function () {
-        $("#searchbenef").on("keyup", function () {
-            var value = $(this).val().toLowerCase();
-            $("#benef tr").filter(function () {
-                $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+            $("#searchdrinks").on("keyup", function () {
+                var value = $(this).val().toLowerCase();
+                $("#drinks tr").filter(function () {
+                    $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+                });
             });
         });
-    });
-</script>
+        $(document).ready(function () {
+            $("#searchproducts").on("keyup", function () {
+                var value = $(this).val().toLowerCase();
+                $("#products tr").filter(function () {
+                    $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+                });
+            });
+        });
+        $(document).ready(function () {
+            $("#searchbenef").on("keyup", function () {
+                var value = $(this).val().toLowerCase();
+                $("#benef tr").filter(function () {
+                    $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+                });
+            });
+        });
+    </script>
+    }
+    else
+    {
+        <button asp-action="StartSession"></button>
+    }
+}
+
 

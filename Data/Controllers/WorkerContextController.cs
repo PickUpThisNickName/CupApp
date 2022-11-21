@@ -13,6 +13,7 @@ using static System.Net.Mime.MediaTypeNames;
 using System.Reflection.Metadata;
 using System.Diagnostics;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 
 namespace CupApplication.Data.Controllers
 {
@@ -31,13 +32,26 @@ namespace CupApplication.Data.Controllers
             _allBeneficiaries = beneficiaries;
             this.content = appDBContent;
         }
-        WorkerViewModel obj = new WorkerViewModel();
+
+        public void StartSession()
+        {
+            HttpContext.Session.GetString("");
+        }
+
+        public void CloseSession()
+        {
+
+        }
+
+
         [Route("WorkerContent")]
         public ViewResult WorkerObjects()
         {
+            WorkerViewModel obj = new WorkerViewModel();
             obj.AllDrinks = _allDrinks.GetDrinks();
             obj.AllProducts = _allProducts.GetProducts();
             obj.AllBeneficiaries = _allBeneficiaries.GetBeneficiaries();
+            obj.SessionStarted = true;
             return View(obj);
         }
 
@@ -100,6 +114,7 @@ namespace CupApplication.Data.Controllers
 
                 Sales Sale = new Sales
                 {
+                    Time = DateTime.Now,
                     BeneficiariID = _allBeneficiaries.getIdByName(person),
                     Cup1_ID = _allDrinks.getIdByName(Uniqdrinks[0]),
                     Cup1_Amount = UniqDrinksCount[0],
@@ -116,18 +131,23 @@ namespace CupApplication.Data.Controllers
                     Product2_ID = _allProducts.getIdByName(Uniqproducts[1]),
                     Product2_Amount = UniqProductsCount[1],
                 };
-                Beneficiaries benef = new Beneficiaries();
-                var personId = _allBeneficiaries.getIdByName(person);
-                if (personId != null)
-                {
-                    benef = _allBeneficiaries.getObject((int)personId);
-                    //benef.GroupObj.Koefficient;
-                    //BenefitType bene = new BenefitType();
-                    //bene.Persons;
-                }
+                float? Paid = 0;
+                Paid += _allDrinks.GetPrice(Sale.Cup1_ID) * (float)Sale.Cup1_Amount;
+                Paid += _allDrinks.GetPrice(Sale.Cup2_ID) * (float)Sale.Cup2_Amount;
+                Paid += _allDrinks.GetPrice(Sale.Cup3_ID) * (float)Sale.Cup3_Amount;
+                Paid += _allDrinks.GetPrice(Sale.Cup4_ID) * (float)Sale.Cup4_Amount;
+                Paid += _allDrinks.GetPrice(Sale.Cup5_ID) * (float)Sale.Cup5_Amount;
+                Paid += _allProducts.GetPortionPrice(Sale.Product1_ID) * (float)Sale.Product1_Amount;
+                Paid += _allProducts.GetPortionPrice(Sale.Product2_ID) * (float)Sale.Product2_Amount;
+
+                
+
+                if (Sale.BeneficiariID != 0)
+                    Paid *= _allBeneficiaries.GetKoefficient((int)Sale.BeneficiariID);
+                Sale.Paid = Paid;
 
                 content.DB_Sales.Add(Sale);
-                content.SaveChanges();
+                //content.SaveChanges();
             }
         }
 

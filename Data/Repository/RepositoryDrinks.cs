@@ -51,6 +51,16 @@ namespace CupApplication.Data.Repository
                 drink = content.DB_Drinks.FirstOrDefault(p => p.Name == name);
             return drink.Id;
         }
+        public float? GetPrice(int? Id)
+        {
+            Drinks drink = new Drinks();
+            if (Id != null)
+                drink = content.DB_Drinks.FirstOrDefault(p => p.Id == Id);
+            if (drink != null)
+                return drink.Price;
+            else
+                return 0;
+        }
 
     }
 }

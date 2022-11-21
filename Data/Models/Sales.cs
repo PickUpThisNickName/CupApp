@@ -1,10 +1,11 @@
-﻿namespace CupApplication.Data.Models
+﻿using System;
+
+namespace CupApplication.Data.Models
 {
     public class Sales
     {
         public int Id { get; set; }
-        public string Date { get; set; }
-        public string Time { get; set; }
+        public DateTime Time { get; set; }
         public int WorkingTimeId { get; set; }
         public int WorkerId { get; set; }
         public int? BeneficiariID { get; set; }

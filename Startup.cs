@@ -23,6 +23,7 @@ using Microsoft.AspNetCore.Mvc.Infrastructure;
 using System.Security.Cryptography.X509Certificates;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
+using System.Text.Json;
 
 namespace CupApplication
 {
@@ -49,7 +50,20 @@ namespace CupApplication
             services.AddDbContext<UsersContext>(options => options.UseSqlServer(Configuration.GetConnectionString("Users")));
 
             services.AddHealthChecks();
+
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+            services.AddScoped(sp => WorkingSession.GetWorkingSession(sp));
+
             services.AddMvc();
+
+            services.AddMemoryCache();
+            services.AddSession(options =>
+            {
+                options.Cookie.HttpOnly = true;
+                options.IdleTimeout = TimeSpan.FromSeconds(10);
+                options.Cookie.IsEssential = true;
+            });
+
             services.AddControllers(options => options.EnableEndpointRouting = false);
             services.AddTransient<IBeneficiaries, RepositoryBeneficiaries>();
             services.AddTransient<IBenefitType, RepositoryBenefitType>();
@@ -65,6 +79,7 @@ namespace CupApplication
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+
             app.UseAuthentication();    // подключение аутентификации
 
             if (env.IsDevelopment())
@@ -74,18 +89,18 @@ namespace CupApplication
             app.UseDeveloperExceptionPage();
             app.UseStatusCodePages();
             app.UseStaticFiles();
+            app.UseSession();
             app.UseMvcWithDefaultRoute();
 
             using (var scope = app.ApplicationServices.CreateScope())
             {
-
                 AppDBContent content = scope.ServiceProvider.GetRequiredService<AppDBContent>();
                 UsersContext user = scope.ServiceProvider.GetRequiredService<UsersContext>();
                 DBObjects.Initial(content);
             }
 
             app.UseRouting();
-
+            app.UseSession();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
@@ -94,5 +109,23 @@ namespace CupApplication
                 pattern: "{controller=Home}/{action=Index}/{id?}");
             });
         }
+    }
+}
+class Person
+{
+    public string Name { get; set; }
+    public int Age { get; set; }
+}
+public static class SessionExtensions
+{
+    public static void Set<T>(this ISession session, string key, T value)
+    {
+        session.SetString(key, JsonSerializer.Serialize<T>(value));
+    }
+
+    public static T Get<T>(this ISession session, string key)
+    {
+        var value = session.GetString(key);
+        return value == null ? default(T) : JsonSerializer.Deserialize<T>(value);
     }
 }
