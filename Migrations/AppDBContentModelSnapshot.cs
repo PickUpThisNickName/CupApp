@@ -25,8 +25,8 @@ namespace CupApplication.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("Group")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int?>("GroupObjId")
+                        .HasColumnType("int");
 
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
@@ -132,7 +132,7 @@ namespace CupApplication.Migrations
                     b.ToTable("DB_Products");
                 });
 
-            modelBuilder.Entity("CupApplication.Data.Models.WorkingSession", b =>
+            modelBuilder.Entity("CupApplication.Data.Models.Sales", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
