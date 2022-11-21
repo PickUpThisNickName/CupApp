@@ -8,6 +8,7 @@ namespace CupApplication.Data.Interfaces
         List<Products> GetProducts();
         List<Products> GetAllProductsContent();
         Products getObject(int Id);
+        public int? getIdByName(string name);
 
     }
 }

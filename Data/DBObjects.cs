@@ -13,6 +13,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using CupApplication.Data.Models;
+using System.Xml.Linq;
+using System.Text.RegularExpressions;
 
 namespace CupApplication.Data
 {
@@ -21,30 +23,32 @@ namespace CupApplication.Data
     {
         public static void Initial(AppDBContent content)
         {
+            if (!content.DB_BenefitType.Any())
+            {
+                content.AddRange(
+                    new BenefitType {Group = "Администрация", Koefficient = 0 },
+                    new BenefitType {Group = "Охрана", Koefficient = (float)0.8 },
+                    new BenefitType {Group = "Сотрудник", Koefficient = (float)0.8 }
+                    );
+                Log.Debug("Инициализация таблицы DB_BenefitType произведена");
+            }
+            else
+                Log.Debug("Инициализация таблицы DB_BenefitType не требуется");
+            content.SaveChanges();
+
             if (!content.DB_Beneficiaries.Any())
             {
                 content.AddRange(
-                    new Beneficiaries { Name = "Иванов Иван Иваныч", Group = "Администрация" },
-                    new Beneficiaries { Name = "Охранов Охран Охраныч", Group = "Охрана" },
-                    new Beneficiaries { Name = "Русланов Руслан Русланыч", Group = "Администрация" },
-                    new Beneficiaries { Name = "Ленанов Ленон Ленаныч", Group = "Сотрудник" }
+                    new Beneficiaries { Name = "Иванов Иван Иваныч", GroupObj = content.DB_BenefitType.FirstOrDefault(p => p.Group == "Администрация") },
+                    new Beneficiaries { Name = "Охранов Охран Охраныч", GroupObj = content.DB_BenefitType.FirstOrDefault(p => p.Group == "Охрана") },
+                    new Beneficiaries { Name = "Русланов Руслан Русланыч", GroupObj = content.DB_BenefitType.FirstOrDefault(p => p.Group == "Администрация") },
+                    new Beneficiaries { Name = "Ленанов Ленон Ленаныч",GroupObj = content.DB_BenefitType.FirstOrDefault(p => p.Group == "Сотрудник") }
                     );
                 Log.Debug("Инициализация таблицы DB_Beneficiaries произведена");
             }
             else
                 Log.Debug("Инициализация таблицы DB_Beneficiaries не требуется");
 
-            if (!content.DB_BenefitType.Any())
-            {
-                content.AddRange(
-                    new BenefitType { Group = "Администрация", Koefficient = 0 },
-                    new BenefitType { Group = "Охрана", Koefficient = (float)0.8 },
-                    new BenefitType { Group = "Сотрудник", Koefficient = (float)0.8 }
-                    );
-                Log.Debug("Инициализация таблицы DB_BenefitType произведена");
-            }
-            else
-                Log.Debug("Инициализация таблицы DB_BenefitType не требуется");
 
             if (!content.DB_Drinks.Any())
             {

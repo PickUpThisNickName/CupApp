@@ -8,6 +8,7 @@ namespace CupApplication.Data.Interfaces
         List<Beneficiaries> GetAllBeneficiariesContent();
         List<Beneficiaries> GetBeneficiaries();
         Beneficiaries getObject(int Id);
+        public int? getIdByName(string name);
 
     }
 }

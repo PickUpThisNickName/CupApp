@@ -3,7 +3,7 @@
     public class Beneficiaries
     {
         public int Id { get; set; }
-        public string Group { get; set; }
+        public BenefitType GroupObj { get; set; }
         public string Name { get; set; }
     }
 }

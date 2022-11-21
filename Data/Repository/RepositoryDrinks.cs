@@ -44,5 +44,13 @@ namespace CupApplication.Data.Repository
         {
             return content.DB_Drinks.FirstOrDefault(p => p.Id == Id);
         }
+        public int? getIdByName(string name)
+        {
+            Drinks drink = new Drinks();
+            if (name != null)
+                drink = content.DB_Drinks.FirstOrDefault(p => p.Name == name);
+            return drink.Id;
+        }
+
     }
 }
