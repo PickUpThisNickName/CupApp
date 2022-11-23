@@ -4,7 +4,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
-using CupApplication.Migrations.Users;
 using CupApplication.Data.Models;
 using CupApplication.Data.ViewModels;
 using Microsoft.AspNetCore.Authorization;

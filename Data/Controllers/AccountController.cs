@@ -5,7 +5,6 @@ using System.Threading.Tasks;
 using CupApplication.Data.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using System.Text.RegularExpressions;
-using CupApplication.Migrations.Users;
 
 namespace CupApplication.Data.Controllers
 {

@@ -46,8 +46,11 @@ namespace CupApplication
                 .CreateLogger();
             services.AddControllers();
 
-            services.AddDbContext<AppDBContent>(options => options.UseSqlServer(Configuration.GetConnectionString("CupDatabase")));
-            services.AddDbContext<UsersContext>(options => options.UseSqlServer(Configuration.GetConnectionString("Users")));
+            var Cupconnectionstring = Configuration.GetConnectionString("CupDatabase");
+            services.AddDbContext<AppDBContent>(options => options.UseMySql(Cupconnectionstring, ServerVersion.AutoDetect(Cupconnectionstring)));
+
+            var Userconnectionstring = Configuration.GetConnectionString("Users");
+            services.AddDbContext<UsersContext>(options => options.UseMySql(Userconnectionstring, ServerVersion.AutoDetect(Userconnectionstring)));
 
             services.AddHealthChecks();
 
