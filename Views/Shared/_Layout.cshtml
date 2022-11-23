@@ -35,7 +35,7 @@
                 <div class="text-end">
                         @if (User.Identity.IsAuthenticated)
                         {
-                        <a method="post" asp-action="Logout" asp-controller="Account" type="button" class="btn btn-outline-light me-2">Выход</a>
+                        <a method="get" asp-action="Logout" asp-controller="Account" type="button" class="btn btn-outline-light me-2">Выход</a>
                             if (User.IsInRole("admin"))
                             {
                             <a method="get" asp-action="UserList" asp-controller="Roles" type="button" class="btn btn-outline-light">Изменение ролей</a>

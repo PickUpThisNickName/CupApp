@@ -1,8 +1,7 @@
 ﻿@model LoginViewModel
 <div style="height:900px" class="d-flex justify-content-center container">
     <div class="form-signin w-auto m-auto">
-        <form method="post" asp-action="Login"
-              asp-route-returnUrl="@Model.ReturnUrl">
+        <form method="post" asp-action="Login" asp-route-returnUrl="@Model.ReturnUrl">
             <div asp-validation-summary="ModelOnly"></div>
             <h1 class="h3 mb-3 fw-normal">Please sign in</h1>
 
