@@ -16,7 +16,6 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using System.Security.Claims;
-using CupApplication.Migrations.Users;
 using Microsoft.AspNetCore.Identity;
 using System.Runtime.CompilerServices;
 using Serilog;
@@ -47,19 +46,26 @@ namespace CupApplication.Data.Controllers
 
             IdentityResult result = await _userManager.UpdateAsync(user);
             if (result.Succeeded)
-                Log.Debug("Сессия пользователя " + user.UserName.ToString() + "Началась в " + DateTime.Now.ToString());
-            return RedirectToAction("WorkerObjectsAsync");
+                Log.Debug("Сессия пользователя " + user.UserName.ToString() + "началась в " + DateTime.Now.ToString());
+            return Redirect("/WorkerContent");
         }
 
-        public void CloseSession()
+        public async Task<IActionResult> CloseSession()
         {
+            User user = await GetCurrentUser();
+            user.IsSessionSterted = false;
+
+            IdentityResult result = await _userManager.UpdateAsync(user);
+            if (result.Succeeded)
+                Log.Debug("Сессия пользователя " + user.UserName.ToString() + "завершилась в " + DateTime.Now.ToString());
+            return Redirect("/WorkerContent");
 
         }
         public async Task<User> GetCurrentUser()
         {
             ClaimsPrincipal currentUser = this.User;
             var currentUserName = currentUser.FindFirst(ClaimTypes.NameIdentifier).Value;
-            User user = await _userManager.FindByNameAsync(currentUserName);
+            User user = await _userManager.FindByIdAsync(currentUserName);
             return user;
         }
 

@@ -7,7 +7,7 @@ namespace CupApplication.Data.Models
     {
         public string StartDate { get; set; }
         public float HoursWorked { get; set; }
-        public bool IsSessionSterted { get; set; }
+        public bool IsSessionSterted { get; set; } = default;
         public List<WorkingSession> Sessions { get; set; }
 
     }

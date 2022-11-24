@@ -5,8 +5,6 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
-#nullable disable
-
 namespace CupApplication.Migrations.Users
 {
     [DbContext(typeof(UsersContext))]
@@ -16,8 +14,8 @@ namespace CupApplication.Migrations.Users
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "6.0.11")
-                .HasAnnotation("Relational:MaxIdentifierLength", 64);
+                .HasAnnotation("Relational:MaxIdentifierLength", 64)
+                .HasAnnotation("ProductVersion", "5.0.17");
 
             modelBuilder.Entity("CupApplication.Data.Models.User", b =>
                 {
@@ -89,7 +87,7 @@ namespace CupApplication.Migrations.Users
                         .IsUnique()
                         .HasDatabaseName("UserNameIndex");
 
-                    b.ToTable("AspNetUsers", (string)null);
+                    b.ToTable("AspNetUsers");
                 });
 
             modelBuilder.Entity("CupApplication.Data.Models.WorkingSession", b =>
@@ -101,15 +99,15 @@ namespace CupApplication.Migrations.Users
                     b.Property<DateTime>("CloseTime")
                         .HasColumnType("datetime(6)");
 
+                    b.Property<string>("GroupObjId")
+                        .HasColumnType("varchar(255)");
+
                     b.Property<DateTime>("OpenTime")
                         .HasColumnType("datetime(6)");
 
-                    b.Property<string>("UserId")
-                        .HasColumnType("varchar(255)");
-
                     b.HasKey("Id");
 
-                    b.HasIndex("UserId");
+                    b.HasIndex("GroupObjId");
 
                     b.ToTable("WorkingSession");
                 });
@@ -137,7 +135,7 @@ namespace CupApplication.Migrations.Users
                         .IsUnique()
                         .HasDatabaseName("RoleNameIndex");
 
-                    b.ToTable("AspNetRoles", (string)null);
+                    b.ToTable("AspNetRoles");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -160,7 +158,7 @@ namespace CupApplication.Migrations.Users
 
                     b.HasIndex("RoleId");
 
-                    b.ToTable("AspNetRoleClaims", (string)null);
+                    b.ToTable("AspNetRoleClaims");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
@@ -183,7 +181,7 @@ namespace CupApplication.Migrations.Users
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("AspNetUserClaims", (string)null);
+                    b.ToTable("AspNetUserClaims");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
@@ -205,7 +203,7 @@ namespace CupApplication.Migrations.Users
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("AspNetUserLogins", (string)null);
+                    b.ToTable("AspNetUserLogins");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<string>", b =>
@@ -220,7 +218,7 @@ namespace CupApplication.Migrations.Users
 
                     b.HasIndex("RoleId");
 
-                    b.ToTable("AspNetUserRoles", (string)null);
+                    b.ToTable("AspNetUserRoles");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
@@ -239,16 +237,16 @@ namespace CupApplication.Migrations.Users
 
                     b.HasKey("UserId", "LoginProvider", "Name");
 
-                    b.ToTable("AspNetUserTokens", (string)null);
+                    b.ToTable("AspNetUserTokens");
                 });
 
             modelBuilder.Entity("CupApplication.Data.Models.WorkingSession", b =>
                 {
-                    b.HasOne("CupApplication.Data.Models.User", "User")
+                    b.HasOne("CupApplication.Data.Models.User", "GroupObj")
                         .WithMany("Sessions")
-                        .HasForeignKey("UserId");
+                        .HasForeignKey("GroupObjId");
 
-                    b.Navigation("User");
+                    b.Navigation("GroupObj");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

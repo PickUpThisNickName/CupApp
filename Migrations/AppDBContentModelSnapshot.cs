@@ -5,8 +5,6 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
-#nullable disable
-
 namespace CupApplication.Migrations
 {
     [DbContext(typeof(AppDBContent))]
@@ -16,8 +14,8 @@ namespace CupApplication.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "6.0.11")
-                .HasAnnotation("Relational:MaxIdentifierLength", 64);
+                .HasAnnotation("Relational:MaxIdentifierLength", 64)
+                .HasAnnotation("ProductVersion", "5.0.17");
 
             modelBuilder.Entity("CupApplication.Data.Models.Beneficiaries", b =>
                 {
@@ -268,15 +266,15 @@ namespace CupApplication.Migrations
                     b.Property<DateTime>("CloseTime")
                         .HasColumnType("datetime(6)");
 
+                    b.Property<string>("GroupObjId")
+                        .HasColumnType("varchar(255)");
+
                     b.Property<DateTime>("OpenTime")
                         .HasColumnType("datetime(6)");
 
-                    b.Property<string>("UserId")
-                        .HasColumnType("varchar(255)");
-
                     b.HasKey("Id");
 
-                    b.HasIndex("UserId");
+                    b.HasIndex("GroupObjId");
 
                     b.ToTable("DB_WorkingSession");
                 });
@@ -292,11 +290,11 @@ namespace CupApplication.Migrations
 
             modelBuilder.Entity("CupApplication.Data.Models.WorkingSession", b =>
                 {
-                    b.HasOne("CupApplication.Data.Models.User", "User")
+                    b.HasOne("CupApplication.Data.Models.User", "GroupObj")
                         .WithMany("Sessions")
-                        .HasForeignKey("UserId");
+                        .HasForeignKey("GroupObjId");
 
-                    b.Navigation("User");
+                    b.Navigation("GroupObj");
                 });
 
             modelBuilder.Entity("CupApplication.Data.Models.BenefitType", b =>

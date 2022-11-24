@@ -2,8 +2,6 @@
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 
-#nullable disable
-
 namespace CupApplication.Migrations.Users
 {
     public partial class Users : Migration
@@ -41,6 +39,7 @@ namespace CupApplication.Migrations.Users
                     StartDate = table.Column<string>(type: "longtext", nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     HoursWorked = table.Column<float>(type: "float", nullable: false),
+                    IsSessionSterted = table.Column<bool>(type: "tinyint(1)", nullable: false),
                     UserName = table.Column<string>(type: "varchar(256)", maxLength: 256, nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     NormalizedUserName = table.Column<string>(type: "varchar(256)", maxLength: 256, nullable: true)
@@ -197,6 +196,29 @@ namespace CupApplication.Migrations.Users
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
 
+            migrationBuilder.CreateTable(
+                name: "WorkingSession",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    OpenTime = table.Column<DateTime>(type: "datetime(6)", nullable: false),
+                    CloseTime = table.Column<DateTime>(type: "datetime(6)", nullable: false),
+                    GroupObjId = table.Column<string>(type: "varchar(255)", nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4")
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_WorkingSession", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_WorkingSession_AspNetUsers_GroupObjId",
+                        column: x => x.GroupObjId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                })
+                .Annotation("MySql:CharSet", "utf8mb4");
+
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
                 table: "AspNetRoleClaims",
@@ -233,6 +255,11 @@ namespace CupApplication.Migrations.Users
                 table: "AspNetUsers",
                 column: "NormalizedUserName",
                 unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_WorkingSession_GroupObjId",
+                table: "WorkingSession",
+                column: "GroupObjId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -251,6 +278,9 @@ namespace CupApplication.Migrations.Users
 
             migrationBuilder.DropTable(
                 name: "AspNetUserTokens");
+
+            migrationBuilder.DropTable(
+                name: "WorkingSession");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");
