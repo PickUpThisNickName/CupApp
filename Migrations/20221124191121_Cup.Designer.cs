@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CupApplication.Migrations
 {
     [DbContext(typeof(AppDBContent))]
-    [Migration("20221124144645_Cup")]
+    [Migration("20221124191121_Cup")]
     partial class Cup
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

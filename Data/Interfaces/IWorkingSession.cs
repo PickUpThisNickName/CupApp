@@ -7,5 +7,7 @@ namespace CupApplication.Data.Interfaces
     {
         List<WorkingSession> GetAllWorkingSessionsContent();
         WorkingSession getObject(int Id);
+        public WorkingSession GetLastSession(string userId);
+
     }
 }

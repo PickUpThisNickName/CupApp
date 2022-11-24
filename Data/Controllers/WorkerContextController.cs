@@ -29,15 +29,21 @@ namespace CupApplication.Data.Controllers
         private readonly IDrinks _allDrinks;
         private readonly IProducts _allProducts;
         private readonly IBeneficiaries _allBeneficiaries;
+        private readonly IWorkingSession _workingSession;
         private readonly UserManager<User> _userManager;
-        public WorkerContextController(IDrinks drinks, IProducts products, IBeneficiaries beneficiaries, AppDBContent appDBContent, UserManager<User> userManager)
+        private readonly UsersContext _usersContext;
+        public WorkerContextController(IDrinks drinks, IProducts products, IBeneficiaries beneficiaries,
+            IWorkingSession workingSession, AppDBContent appDBContent, UserManager<User> userManager, UsersContext usersContext)
         {
             _allDrinks = drinks;
             _allProducts = products;
             _allBeneficiaries = beneficiaries;
             content = appDBContent;
             _userManager = userManager;
+            _workingSession = workingSession;
+            _usersContext = usersContext;
         }
+
 
         public async Task<IActionResult> StartSession()
         {
@@ -46,7 +52,32 @@ namespace CupApplication.Data.Controllers
 
             IdentityResult result = await _userManager.UpdateAsync(user);
             if (result.Succeeded)
+            {
+                WorkingSession session = content.DB_WorkingSession.FirstOrDefault(p => p.GroupObj == user);
+                if(session!=null)
+                {
+                    WorkingSession workingSession = new WorkingSession
+                    {
+                        Id= session.Id +1,
+                        OpenTime = DateTime.Now,
+                        GroupObj = _userManager.Users.FirstOrDefault(p => p.Id == user.Id)
+                    };
+                    content.DB_WorkingSession.Add(workingSession);
+                }
+                else
+                {
+                    WorkingSession workingSession = new WorkingSession
+                    {
+                        OpenTime = DateTime.Now,
+                        GroupObj = _userManager.Users.FirstOrDefault(p => p.Id == user.Id)
+                    };
+                    content.DB_WorkingSession.Add(workingSession);
+                }
+                content.SaveChanges();
+                _usersContext.SaveChanges();
+
                 Log.Debug("Сессия пользователя " + user.UserName.ToString() + "началась в " + DateTime.Now.ToString());
+            }
             return Redirect("/WorkerContent");
         }
 
@@ -57,7 +88,13 @@ namespace CupApplication.Data.Controllers
 
             IdentityResult result = await _userManager.UpdateAsync(user);
             if (result.Succeeded)
+            {
+                WorkingSession workingSession = _workingSession.GetLastSession(user.Id);
+                workingSession.CloseTime = DateTime.Now;
+                content.DB_WorkingSession.Attach(workingSession).Property(x => x.CloseTime).IsModified = true;
+                content.SaveChanges();
                 Log.Debug("Сессия пользователя " + user.UserName.ToString() + "завершилась в " + DateTime.Now.ToString());
+            }
             return Redirect("/WorkerContent");
 
         }

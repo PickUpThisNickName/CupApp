@@ -74,7 +74,7 @@ namespace CupApplication
             services.AddTransient<IDrinks_leftovers, RepositoryDrinks_leftovers>();
             services.AddTransient<IProducts, RepositoryProducts>();
             services.AddTransient<IUsers, RepositoryUsers>();
-            //services.AddTransient<IWorkingSession, RepositoryWorkingSession>();
+            services.AddTransient<IWorkingSession, RepositoryWorkingSession>();
 
             services.AddIdentity<User, IdentityRole>()
                 .AddEntityFrameworkStores<UsersContext>();

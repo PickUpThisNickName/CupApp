@@ -18,6 +18,10 @@ namespace CupApplication.Data.Repository
             _userManager = userManager;
             _appDBContent = appDBContent;
         }
+        User IUsers.getObject(string Id)
+        {
+            return _userscontent.AspNetUsers.FirstOrDefault(p => p.Id == Id);
+        }
 
         public IQueryable<User> GetAllUsersContent()
         {
@@ -25,12 +29,5 @@ namespace CupApplication.Data.Repository
             return allusers;
         }
 
-        public WorkingSession GetLastSession(string userId)
-        {
-            WorkingSession session = new WorkingSession();
-            if (userId != null)
-                session = _appDBContent.DB_WorkingSession.Include(b => b.GroupObj).LastOrDefault();
-            return session;
-        }
     }
 }

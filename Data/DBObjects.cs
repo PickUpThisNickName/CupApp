@@ -116,7 +116,7 @@ namespace CupApplication.Data
             if (!content.DB_WorkingSession.Any())
             {
                 content.AddRange(
-                    new WorkingSession{ Id = 1, OpenTime = DateTime.Now, CloseTime = DateTime.Now }
+                    new WorkingSession{OpenTime = DateTime.Now, CloseTime = DateTime.Now }
                     );
                 Log.Debug("Инициализация таблицы DB_WorkingSession произведена");
             }
@@ -134,7 +134,6 @@ namespace CupApplication.Data
                 Log.Debug("Инициализация таблицы DB_Sales не требуется");
 
             content.SaveChanges();
-            Log.Debug("Изменения БД сохранены");
         }
 
     }

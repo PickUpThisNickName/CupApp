@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace CupApplication.Data
 {
-    public class AppDBContent:DbContext
+    public class AppDBContent : DbContext
     {
         public AppDBContent(DbContextOptions<AppDBContent> options)
     : base(options)
@@ -19,9 +19,10 @@ namespace CupApplication.Data
         public DbSet<WorkingSession> DB_WorkingSession { get; set; }
         public DbSet<Sales> DB_Sales { get; set; }
 
-        protected override void OnModelCreating(ModelBuilder modelBuilder) {
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
             modelBuilder.Entity<Beneficiaries>().HasOne(b => b.GroupObj).WithMany(g => g.Persons);
+            modelBuilder.Entity<WorkingSession>().HasOne(b => b.GroupObj).WithMany(g => g.Sessions);
         }
-
     }
 }
