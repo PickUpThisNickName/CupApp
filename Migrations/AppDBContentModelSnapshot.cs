@@ -198,6 +198,67 @@ namespace CupApplication.Migrations
                     b.ToTable("DB_Sales");
                 });
 
+            modelBuilder.Entity("CupApplication.Data.Models.User", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("varchar(255)");
+
+                    b.Property<int>("AccessFailedCount")
+                        .HasColumnType("int");
+
+                    b.Property<string>("ConcurrencyStamp")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("Email")
+                        .HasColumnType("longtext");
+
+                    b.Property<bool>("EmailConfirmed")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<float>("HoursWorked")
+                        .HasColumnType("float");
+
+                    b.Property<bool>("IsSessionSterted")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<bool>("LockoutEnabled")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<DateTimeOffset?>("LockoutEnd")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<string>("NormalizedEmail")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("NormalizedUserName")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("PasswordHash")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("PhoneNumber")
+                        .HasColumnType("longtext");
+
+                    b.Property<bool>("PhoneNumberConfirmed")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<string>("SecurityStamp")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("StartDate")
+                        .HasColumnType("longtext");
+
+                    b.Property<bool>("TwoFactorEnabled")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<string>("UserName")
+                        .HasColumnType("longtext");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("User");
+                });
+
             modelBuilder.Entity("CupApplication.Data.Models.WorkingSession", b =>
                 {
                     b.Property<int>("Id")
@@ -207,19 +268,15 @@ namespace CupApplication.Migrations
                     b.Property<DateTime>("CloseTime")
                         .HasColumnType("datetime(6)");
 
-                    b.Property<string>("Name")
-                        .HasColumnType("longtext");
-
                     b.Property<DateTime>("OpenTime")
                         .HasColumnType("datetime(6)");
 
-                    b.Property<string>("SessionGuid")
-                        .HasColumnType("longtext");
-
-                    b.Property<int>("WorkerID")
-                        .HasColumnType("int");
+                    b.Property<string>("UserId")
+                        .HasColumnType("varchar(255)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("DB_WorkingSession");
                 });
@@ -233,9 +290,23 @@ namespace CupApplication.Migrations
                     b.Navigation("GroupObj");
                 });
 
+            modelBuilder.Entity("CupApplication.Data.Models.WorkingSession", b =>
+                {
+                    b.HasOne("CupApplication.Data.Models.User", "User")
+                        .WithMany("Sessions")
+                        .HasForeignKey("UserId");
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("CupApplication.Data.Models.BenefitType", b =>
                 {
                     b.Navigation("Persons");
+                });
+
+            modelBuilder.Entity("CupApplication.Data.Models.User", b =>
+                {
+                    b.Navigation("Sessions");
                 });
 #pragma warning restore 612, 618
         }

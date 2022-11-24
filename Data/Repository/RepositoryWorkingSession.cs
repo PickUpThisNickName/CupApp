@@ -16,19 +16,18 @@ namespace CupApplication.Data.Repository
         public List<WorkingSession> GetAllWorkingSessionsContent()
         {
             return (from p in content.DB_WorkingSession
-                    select new WorkingSession(content)
+                    select new WorkingSession
                     {
-                        SessionGuid = p.SessionGuid,
+                        Id = p.Id,
                         OpenTime = p.OpenTime,
                         CloseTime = p.CloseTime,
-                        WorkerID = p.WorkerID,
-                        Name = p.Name
+                        GroupObj = p.GroupObj,
                     }).ToList();
         }
 
-        WorkingSession IWorkingSession.getObject(string Id)
+        WorkingSession IWorkingSession.getObject(int Id)
         {
-            return content.DB_WorkingSession.FirstOrDefault(p => p.SessionGuid == Id);
+            return content.DB_WorkingSession.FirstOrDefault(p => p.Id == Id);
         }
     }
 }

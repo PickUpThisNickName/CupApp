@@ -55,17 +55,17 @@ namespace CupApplication
             services.AddHealthChecks();
 
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
-            services.AddScoped(sp => WorkingSession.GetWorkingSession(sp));
+            //services.AddScoped(sp => WorkingSession.GetWorkingSession(sp));
 
             services.AddMvc();
 
             services.AddMemoryCache();
-            services.AddSession(options =>
-            {
-                options.Cookie.HttpOnly = true;
-                options.IdleTimeout = TimeSpan.FromSeconds(10);
-                options.Cookie.IsEssential = true;
-            });
+            //services.AddSession(options =>
+            //{
+            //    options.Cookie.HttpOnly = true;
+            //    options.IdleTimeout = TimeSpan.FromSeconds(10);
+            //    options.Cookie.IsEssential = true;
+            //});
 
             services.AddControllers(options => options.EnableEndpointRouting = false);
             services.AddTransient<IBeneficiaries, RepositoryBeneficiaries>();
@@ -74,7 +74,7 @@ namespace CupApplication
             services.AddTransient<IDrinks_leftovers, RepositoryDrinks_leftovers>();
             services.AddTransient<IProducts, RepositoryProducts>();
             services.AddTransient<IUsers, RepositoryUsers>();
-            services.AddTransient<IWorkingSession, RepositoryWorkingSession>();
+            //services.AddTransient<IWorkingSession, RepositoryWorkingSession>();
 
             services.AddIdentity<User, IdentityRole>()
                 .AddEntityFrameworkStores<UsersContext>();
@@ -92,7 +92,6 @@ namespace CupApplication
             app.UseDeveloperExceptionPage();
             app.UseStatusCodePages();
             app.UseStaticFiles();
-            app.UseSession();
             app.UseMvcWithDefaultRoute();
 
             using (var scope = app.ApplicationServices.CreateScope())
@@ -103,7 +102,7 @@ namespace CupApplication
             }
 
             app.UseRouting();
-            app.UseSession();
+            //app.UseSession();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
@@ -114,21 +113,21 @@ namespace CupApplication
         }
     }
 }
-class Person
-{
-    public string Name { get; set; }
-    public int Age { get; set; }
-}
-public static class SessionExtensions
-{
-    public static void Set<T>(this ISession session, string key, T value)
-    {
-        session.SetString(key, JsonSerializer.Serialize<T>(value));
-    }
-
-    public static T Get<T>(this ISession session, string key)
-    {
-        var value = session.GetString(key);
-        return value == null ? default(T) : JsonSerializer.Deserialize<T>(value);
-    }
-}
+//class Person
+//{
+//    public string Name { get; set; }
+//    public int Age { get; set; }
+//}
+//public static class SessionExtensions
+//{
+//    public static void Set<T>(this ISession session, string key, T value)
+//    {
+//        session.SetString(key, JsonSerializer.Serialize<T>(value));
+//    }
+//
+//    public static T Get<T>(this ISession session, string key)
+//    {
+//        var value = session.GetString(key);
+//        return value == null ? default(T) : JsonSerializer.Deserialize<T>(value);
+//    }
+//}

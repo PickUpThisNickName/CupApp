@@ -6,6 +6,6 @@ namespace CupApplication.Data.Interfaces
     public interface IWorkingSession
     {
         List<WorkingSession> GetAllWorkingSessionsContent();
-        WorkingSession getObject(string Id);
+        WorkingSession getObject(int Id);
     }
 }

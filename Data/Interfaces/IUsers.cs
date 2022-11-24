@@ -7,5 +7,6 @@ namespace CupApplication.Data.Interfaces
     public interface IUsers
     {
         IQueryable<User> GetAllUsersContent();
+        public WorkingSession GetLastSession(string userId);
     }
 }

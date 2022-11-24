@@ -14,6 +14,12 @@ using System.Reflection.Metadata;
 using System.Diagnostics;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore;
+using System.Security.Claims;
+using CupApplication.Migrations.Users;
+using Microsoft.AspNetCore.Identity;
+using System.Runtime.CompilerServices;
+using Serilog;
 
 namespace CupApplication.Data.Controllers
 {
@@ -24,34 +30,48 @@ namespace CupApplication.Data.Controllers
         private readonly IDrinks _allDrinks;
         private readonly IProducts _allProducts;
         private readonly IBeneficiaries _allBeneficiaries;
-
-        public WorkerContextController(IDrinks drinks, IProducts products, IBeneficiaries beneficiaries, AppDBContent appDBContent)
+        private readonly UserManager<User> _userManager;
+        public WorkerContextController(IDrinks drinks, IProducts products, IBeneficiaries beneficiaries, AppDBContent appDBContent, UserManager<User> userManager)
         {
             _allDrinks = drinks;
             _allProducts = products;
             _allBeneficiaries = beneficiaries;
-            this.content = appDBContent;
+            content = appDBContent;
+            _userManager = userManager;
         }
 
-        public void StartSession()
+        public async Task<IActionResult> StartSession()
         {
-            HttpContext.Session.GetString("");
+            User user = await GetCurrentUser();
+            user.IsSessionSterted = true;
+
+            IdentityResult result = await _userManager.UpdateAsync(user);
+            if (result.Succeeded)
+                Log.Debug("Сессия пользователя " + user.UserName.ToString() + "Началась в " + DateTime.Now.ToString());
+            return RedirectToAction("WorkerObjectsAsync");
         }
 
         public void CloseSession()
         {
 
         }
-
+        public async Task<User> GetCurrentUser()
+        {
+            ClaimsPrincipal currentUser = this.User;
+            var currentUserName = currentUser.FindFirst(ClaimTypes.NameIdentifier).Value;
+            User user = await _userManager.FindByNameAsync(currentUserName);
+            return user;
+        }
 
         [Route("WorkerContent")]
-        public ViewResult WorkerObjects()
+        public async Task<ViewResult> WorkerObjectsAsync()
         {
             WorkerViewModel obj = new WorkerViewModel();
             obj.AllDrinks = _allDrinks.GetDrinks();
             obj.AllProducts = _allProducts.GetProducts();
             obj.AllBeneficiaries = _allBeneficiaries.GetBeneficiaries();
-            obj.SessionStarted = true;
+            User user = await GetCurrentUser();
+            obj.SessionStarted = user.IsSessionSterted;
             return View(obj);
         }
 

@@ -116,7 +116,7 @@ namespace CupApplication.Data
             if (!content.DB_WorkingSession.Any())
             {
                 content.AddRange(
-                    new WorkingSession(content){ OpenTime = DateTime.Now, CloseTime = DateTime.Now, Name = "Русланов Руслан Русланы", WorkerID = 1 }
+                    new WorkingSession{ Id = 1, OpenTime = DateTime.Now, CloseTime = DateTime.Now }
                     );
                 Log.Debug("Инициализация таблицы DB_WorkingSession произведена");
             }
