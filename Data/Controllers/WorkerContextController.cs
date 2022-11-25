@@ -199,6 +199,10 @@ namespace CupApplication.Data.Controllers
 
                 content.DB_Sales.Add(Sale);
                 //content.SaveChanges();
+                //todo добааить связь dbdrinks с dbdrinksleftovers 
+                //foreach(drink in uniqdrinks) 
+                //{drink.leftovers.setleftovers*uniqdrinkcount}
+                //foreach (product in uniqproducts... ) 
             }
         }
 
