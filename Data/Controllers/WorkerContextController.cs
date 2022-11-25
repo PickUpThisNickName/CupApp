@@ -53,27 +53,14 @@ namespace CupApplication.Data.Controllers
             IdentityResult result = await _userManager.UpdateAsync(user);
             if (result.Succeeded)
             {
-                WorkingSession session = content.DB_WorkingSession.FirstOrDefault(p => p.GroupObj == user);
-                if(session!=null)
-                {
-                    WorkingSession workingSession = new WorkingSession
-                    {
-                        Id= session.Id +1,
-                        OpenTime = DateTime.Now,
-                        GroupObj = _userManager.Users.FirstOrDefault(p => p.Id == user.Id)
-                    };
-                    content.DB_WorkingSession.Add(workingSession);
-                }
-                else
-                {
-                    WorkingSession workingSession = new WorkingSession
-                    {
-                        OpenTime = DateTime.Now,
-                        GroupObj = _userManager.Users.FirstOrDefault(p => p.Id == user.Id)
-                    };
-                    content.DB_WorkingSession.Add(workingSession);
-                }
                 content.SaveChanges();
+                WorkingSession workingSession = new WorkingSession
+                {
+                    OpenTime = DateTime.Now,
+                    GroupObj = user
+                };
+                _usersContext.DB_WorkingSession.Add(workingSession);
+
                 _usersContext.SaveChanges();
 
                 Log.Debug("Сессия пользователя " + user.UserName.ToString() + "началась в " + DateTime.Now.ToString());
@@ -89,11 +76,11 @@ namespace CupApplication.Data.Controllers
             IdentityResult result = await _userManager.UpdateAsync(user);
             if (result.Succeeded)
             {
-                WorkingSession workingSession = _workingSession.GetLastSession(user.Id);
-                workingSession.CloseTime = DateTime.Now;
-                content.DB_WorkingSession.Attach(workingSession).Property(x => x.CloseTime).IsModified = true;
-                content.SaveChanges();
-                Log.Debug("Сессия пользователя " + user.UserName.ToString() + "завершилась в " + DateTime.Now.ToString());
+               WorkingSession workingSession = _workingSession.GetLastSession(user.Id);
+               workingSession.CloseTime = DateTime.Now;
+               _usersContext.DB_WorkingSession.Attach(workingSession).Property(x => x.CloseTime).IsModified = true;
+                _usersContext.SaveChanges();
+               Log.Debug("Сессия пользователя " + user.UserName.ToString() + "завершилась в " + DateTime.Now.ToString());
             }
             return Redirect("/WorkerContent");
 
@@ -115,6 +102,7 @@ namespace CupApplication.Data.Controllers
             obj.AllBeneficiaries = _allBeneficiaries.GetBeneficiaries();
             User user = await GetCurrentUser();
             obj.SessionStarted = user.IsSessionSterted;
+            obj.SessionStartTime = _workingSession.GetLastSession(user.Id).OpenTime.ToString("yyyy-MM-ddTHH:mm:ss");
             return View(obj);
         }
 

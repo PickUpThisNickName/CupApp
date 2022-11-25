@@ -16,13 +16,11 @@ namespace CupApplication.Data
         public DbSet<Drinks> DB_Drinks { get; set; }
         public DbSet<Drinks_leftovers> DB_Drinks_leftovers { get; set; }
         public DbSet<Products> DB_Products { get; set; }
-        public DbSet<WorkingSession> DB_WorkingSession { get; set; }
         public DbSet<Sales> DB_Sales { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Beneficiaries>().HasOne(b => b.GroupObj).WithMany(g => g.Persons);
-            modelBuilder.Entity<WorkingSession>().HasOne(b => b.GroupObj).WithMany(g => g.Sessions);
         }
     }
 }

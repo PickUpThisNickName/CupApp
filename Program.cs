@@ -27,7 +27,9 @@ namespace CupApplication
                 {
                     var userManager = services.GetRequiredService<UserManager<User>>();
                     var rolesManager = services.GetRequiredService<RoleManager<IdentityRole>>();
-                    await RoleInitializer.InitializeAsync(userManager, rolesManager);
+                    var usercontent = services.GetRequiredService<UsersContext>();
+
+                    await RoleInitializer.InitializeAsync(userManager, rolesManager, usercontent);
                 }
                 catch (Exception ex)
                 {

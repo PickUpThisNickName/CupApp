@@ -6,11 +6,11 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
-namespace CupApplication.Migrations.Users
+namespace CupApplication.Migrations
 {
     [DbContext(typeof(UsersContext))]
-    [Migration("20221124144742_Users")]
-    partial class Users
+    [Migration("20221125104603_User")]
+    partial class User
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -111,7 +111,7 @@ namespace CupApplication.Migrations.Users
 
                     b.HasIndex("GroupObjId");
 
-                    b.ToTable("WorkingSession");
+                    b.ToTable("DB_WorkingSession");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>

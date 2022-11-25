@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using CupApplication.Data.Models;
 
@@ -10,5 +11,6 @@ namespace CupApplication.Data.ViewModels
         public IEnumerable<Products> AllProducts { get; set; }
         public IEnumerable<Beneficiaries> AllBeneficiaries { get; set; }
         public bool SessionStarted { get; set; }
+        public string SessionStartTime { get; set; }
     }
 }

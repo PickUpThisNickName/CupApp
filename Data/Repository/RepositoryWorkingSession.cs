@@ -21,7 +21,7 @@ namespace CupApplication.Data.Repository
 
         public List<WorkingSession> GetAllWorkingSessionsContent()
         {
-            return (from p in content.DB_WorkingSession
+            return (from p in _usersContext.DB_WorkingSession
                     select new WorkingSession
                     {
                         Id = p.Id,
@@ -33,15 +33,17 @@ namespace CupApplication.Data.Repository
 
         WorkingSession IWorkingSession.getObject(int Id)
         {
-            return content.DB_WorkingSession.FirstOrDefault(p => p.Id == Id);
+            return _usersContext.DB_WorkingSession.FirstOrDefault(p => p.Id == Id);
         }
-        public WorkingSession GetLastSession(string userId)
+        public WorkingSession? GetLastSession(string userId)
         {
             WorkingSession session = new WorkingSession();
             if (userId != null)
             {
+                //benef = content.DB_Beneficiaries.Include(b => b.GroupObj).FirstOrDefault(p => p.Id == Id);
+
                 User user = _user.getObject(userId);
-                session = user.Sessions.Last();
+                session = _usersContext.DB_WorkingSession.Include(b => b.GroupObj).ToList().Last();
             }
             return session;
         }

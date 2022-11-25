@@ -113,16 +113,6 @@ namespace CupApplication.Data
             else
                 Log.Debug("Инициализация таблицы DB_Products не требуется");
 
-            if (!content.DB_WorkingSession.Any())
-            {
-                content.AddRange(
-                    new WorkingSession{OpenTime = DateTime.Now, CloseTime = DateTime.Now }
-                    );
-                Log.Debug("Инициализация таблицы DB_WorkingSession произведена");
-            }
-            else
-                Log.Debug("Инициализация таблицы DB_WorkingSession не требуется");
-
             if (!content.DB_Sales.Any())
             {
                 content.AddRange(

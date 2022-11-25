@@ -1,13 +1,15 @@
 ﻿using CupApplication.Data.Models;
 using Microsoft.AspNetCore.Identity;
 using Serilog;
+using System;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace CupApplication.Data
 {
     public class RoleInitializer
     {
-        public static async Task InitializeAsync(UserManager<User> userManager, RoleManager<IdentityRole> roleManager)
+        public static async Task InitializeAsync(UserManager<User> userManager, RoleManager<IdentityRole> roleManager, UsersContext usersContext)
         {
             string AdminName = "CupAdmin";
             string Adminpassword = "_Aa123456";
@@ -48,6 +50,16 @@ namespace CupApplication.Data
                     Log.Debug("Инициализирован Пользователь с ролью worker");
                 }
             }
+            if (!usersContext.DB_WorkingSession.Any())
+            {
+                usersContext.AddRange(
+                    new WorkingSession { OpenTime = DateTime.Now, CloseTime = DateTime.Now }
+                    );
+                Log.Debug("Инициализация таблицы DB_WorkingSession произведена");
+            }
+            else
+                Log.Debug("Инициализация таблицы DB_WorkingSession не требуется");
+
         }
     }
 }

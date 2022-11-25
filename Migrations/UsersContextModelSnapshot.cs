@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
-namespace CupApplication.Migrations.Users
+namespace CupApplication.Migrations
 {
     [DbContext(typeof(UsersContext))]
     partial class UsersContextModelSnapshot : ModelSnapshot
@@ -109,7 +109,7 @@ namespace CupApplication.Migrations.Users
 
                     b.HasIndex("GroupObjId");
 
-                    b.ToTable("WorkingSession");
+                    b.ToTable("DB_WorkingSession");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>

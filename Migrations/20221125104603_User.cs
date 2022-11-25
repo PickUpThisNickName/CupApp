@@ -2,9 +2,9 @@
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace CupApplication.Migrations.Users
+namespace CupApplication.Migrations
 {
-    public partial class Users : Migration
+    public partial class User : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -197,7 +197,7 @@ namespace CupApplication.Migrations.Users
                 .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
-                name: "WorkingSession",
+                name: "DB_WorkingSession",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -209,9 +209,9 @@ namespace CupApplication.Migrations.Users
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_WorkingSession", x => x.Id);
+                    table.PrimaryKey("PK_DB_WorkingSession", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_WorkingSession_AspNetUsers_GroupObjId",
+                        name: "FK_DB_WorkingSession_AspNetUsers_GroupObjId",
                         column: x => x.GroupObjId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
@@ -257,8 +257,8 @@ namespace CupApplication.Migrations.Users
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_WorkingSession_GroupObjId",
-                table: "WorkingSession",
+                name: "IX_DB_WorkingSession_GroupObjId",
+                table: "DB_WorkingSession",
                 column: "GroupObjId");
         }
 
@@ -280,7 +280,7 @@ namespace CupApplication.Migrations.Users
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
-                name: "WorkingSession");
+                name: "DB_WorkingSession");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");
